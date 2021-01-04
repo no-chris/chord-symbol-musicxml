@@ -1,3 +1,5 @@
+import { toXML } from 'jstoxml';
+
 import musicXmlRenderer from '../src/index';
 import _cloneDeep from 'lodash/cloneDeep';
 
@@ -33,5 +35,56 @@ describe('public API', () => {
 		cloned.musicxml = _cloneDeep(filtered.musicxml);
 
 		expect(filtered).toEqual(cloned);
+	});
+});
+
+describe('Harmony object', () => {
+	test('returns the expected harmony object', () => {
+		const parsed = parseChord('Cm7/G');
+		const filtered = musicXmlRenderer(parsed);
+
+		const expectedOutput = {
+			_name: 'harmony',
+			_content: [
+				{
+					_name: 'root',
+					_content: {
+						_name: 'root-step',
+						_content: 'C',
+					},
+				},
+				{
+					_name: 'kind',
+					_attrs: {
+						text: 'mi7',
+					},
+					_content: 'minor7',
+				},
+				{
+					_name: 'bass',
+					_content: {
+						_name: 'bass-step',
+						_content: 'G',
+					},
+				},
+			],
+		};
+
+		expect(filtered.musicxml).toEqual(expectedOutput);
+	});
+
+	test('the returned object can be converted to a valid XML', () => {
+		const parsed = parseChord('Cm7/G');
+		const filtered = musicXmlRenderer(parsed);
+		const actualXml = toXML(filtered.musicxml);
+
+		const expectedXml =
+			'<harmony>' +
+			'<root><root-step>C</root-step></root>' +
+			'<kind text="mi7">minor7</kind>' +
+			'<bass><bass-step>G</bass-step></bass>' +
+			'</harmony>';
+
+		expect(actualXml).toBe(expectedXml);
 	});
 });

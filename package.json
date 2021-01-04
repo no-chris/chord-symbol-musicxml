@@ -17,6 +17,7 @@
     "chord-symbol": "^2.0.0",
     "eslint": "^7.17.0",
     "jest": "^26.6.3",
+    "jstoxml": "^2.0.3",
     "lodash": "^4.17.20",
     "prettier": "^2.2.1"
   }
