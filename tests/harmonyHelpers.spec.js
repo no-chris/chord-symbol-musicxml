@@ -1,55 +1,109 @@
 import { toXML } from 'jstoxml';
-import { getRoot, getBass, getKind, getHarmony } from '../src/harmonyHelpers';
+import { getNote, getKind, getHarmony } from '../src/harmonyHelpers';
 
-describe('getRoot()', () => {
-	test('the module exposes a getRoot() function', () => {
-		expect(typeof getRoot).toBe('function');
+describe('getNote()', () => {
+	test('the module exposes a getNote() function', () => {
+		expect(typeof getNote).toBe('function');
 	});
 
-	test('returns the expected json structure for <root>', () => {
-		const root = getRoot('C');
+	test('returns the expected json structure for <root> (unaltered)', () => {
+		const root = getNote('root', 'C');
 		const expected = {
 			_name: 'root',
-			_content: {
-				_name: 'root-step',
-				_content: 'C',
-			},
+			_content: [
+				{
+					_name: 'root-step',
+					_content: 'C',
+				},
+			],
 		};
 		expect(root).toEqual(expected);
 	});
 
-	test('produces the expected Xml for <root>', () => {
-		const expectedXml = '<root><root-step>C</root-step></root>';
-		const root = getRoot('C');
+	test('produces the expected Xml for <root> (unaltered)', () => {
+		const expectedXml = '<root><root-step>B</root-step></root>';
+		const root = getNote('root', 'B');
 		const actualXml = toXML(root);
 
 		expect(actualXml).toBe(expectedXml);
 	});
-});
 
-describe('getBass()', () => {
-	test('the module exposes a getBass() function', () => {
-		expect(typeof getBass).toBe('function');
+	test('returns the expected json structure for <root> (sharpened)', () => {
+		const root = getNote('root', 'C#');
+		const expected = {
+			_name: 'root',
+			_content: [
+				{
+					_name: 'root-step',
+					_content: 'C',
+				},
+				{
+					_name: 'root-alter',
+					_content: '1',
+				},
+			],
+		};
+		expect(root).toEqual(expected);
+	});
+
+	test('produces the expected Xml for <root> (sharpened)', () => {
+		const expectedXml =
+			'<root>' +
+			'<root-step>C</root-step>' +
+			'<root-alter>1</root-alter>' +
+			'</root>';
+		const root = getNote('root', 'C#');
+		const actualXml = toXML(root);
+
+		expect(actualXml).toBe(expectedXml);
+	});
+
+	test('returns the expected json structure for <root> (flattened)', () => {
+		const root = getNote('root', 'Bb');
+		const expected = {
+			_name: 'root',
+			_content: [
+				{
+					_name: 'root-step',
+					_content: 'B',
+				},
+				{
+					_name: 'root-alter',
+					_content: '-1',
+				},
+			],
+		};
+		expect(root).toEqual(expected);
+	});
+
+	test('produces the expected Xml for <root> (flattened)', () => {
+		const expectedXml =
+			'<root>' +
+			'<root-step>B</root-step>' +
+			'<root-alter>-1</root-alter>' +
+			'</root>';
+		const root = getNote('root', 'Bb');
+		const actualXml = toXML(root);
+
+		expect(actualXml).toBe(expectedXml);
 	});
 
 	test('returns the expected json structure for <bass>', () => {
-		const bass = getBass('G');
+		const bass = getNote('bass', 'Ab');
 		const expected = {
 			_name: 'bass',
-			_content: {
-				_name: 'bass-step',
-				_content: 'G',
-			},
+			_content: [
+				{
+					_name: 'bass-step',
+					_content: 'A',
+				},
+				{
+					_name: 'bass-alter',
+					_content: '-1',
+				},
+			],
 		};
 		expect(bass).toEqual(expected);
-	});
-
-	test('produces the expected Xml for <bass>', () => {
-		const expectedXml = '<bass><bass-step>G</bass-step></bass>';
-		const bass = getBass('G');
-		const actualXml = toXML(bass);
-
-		expect(actualXml).toBe(expectedXml);
 	});
 });
 

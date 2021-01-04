@@ -40,7 +40,7 @@ describe('public API', () => {
 
 describe('Harmony object', () => {
 	test('returns the expected harmony object', () => {
-		const parsed = parseChord('Cm7/G');
+		const parsed = parseChord('C#m7/Ab');
 		const filtered = musicXmlRenderer(parsed);
 
 		const expectedOutput = {
@@ -48,10 +48,16 @@ describe('Harmony object', () => {
 			_content: [
 				{
 					_name: 'root',
-					_content: {
-						_name: 'root-step',
-						_content: 'C',
-					},
+					_content: [
+						{
+							_name: 'root-step',
+							_content: 'C',
+						},
+						{
+							_name: 'root-alter',
+							_content: '1',
+						},
+					],
 				},
 				{
 					_name: 'kind',
@@ -62,10 +68,16 @@ describe('Harmony object', () => {
 				},
 				{
 					_name: 'bass',
-					_content: {
-						_name: 'bass-step',
-						_content: 'G',
-					},
+					_content: [
+						{
+							_name: 'bass-step',
+							_content: 'A',
+						},
+						{
+							_name: 'bass-alter',
+							_content: '-1',
+						},
+					],
 				},
 			],
 		};
@@ -74,15 +86,21 @@ describe('Harmony object', () => {
 	});
 
 	test('the returned object can be converted to a valid XML', () => {
-		const parsed = parseChord('Cm7/G');
+		const parsed = parseChord('C#m7/Ab');
 		const filtered = musicXmlRenderer(parsed);
 		const actualXml = toXML(filtered.musicxml);
 
 		const expectedXml =
 			'<harmony>' +
-			'<root><root-step>C</root-step></root>' +
+			'<root>' +
+			'<root-step>C</root-step>' +
+			'<root-alter>1</root-alter>' +
+			'</root>' +
 			'<kind text="mi7">minor7</kind>' +
-			'<bass><bass-step>G</bass-step></bass>' +
+			'<bass>' +
+			'<bass-step>A</bass-step>' +
+			'<bass-alter>-1</bass-alter>' +
+			'</bass>' +
 			'</harmony>';
 
 		expect(actualXml).toBe(expectedXml);

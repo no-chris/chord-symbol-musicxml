@@ -8,20 +8,6 @@
  */
 
 /**
- * @param {String} rootNote
- * @returns {XmlNode}
- */
-const getRoot = (rootNote) => {
-	return {
-		_name: 'root',
-		_content: {
-			_name: 'root-step',
-			_content: rootNote,
-		},
-	};
-};
-
-/**
  * @param {String} kind
  * @param {String} text
  * @returns {XmlNode}
@@ -37,17 +23,31 @@ const getKind = (kind, text) => {
 };
 
 /**
- * @param {String} bassNote
+ * @param {('root'|'bass')} noteKind
+ * @param {String} note
  * @returns {XmlNode}
  */
-const getBass = (bassNote) => {
-	return {
-		_name: 'bass',
-		_content: {
-			_name: 'bass-step',
-			_content: bassNote,
+const getNote = (noteKind, note) => {
+	const _content = [
+		{
+			_name: noteKind + '-step',
+			_content: note.substring(0, 1),
 		},
+	];
+	if (note.length > 1) {
+		_content.push({
+			_name: noteKind + '-alter',
+			_content: hasSharp(note) ? '1' : '-1',
+		});
+	}
+	return {
+		_name: noteKind,
+		_content,
 	};
+};
+
+const hasSharp = (note) => {
+	return note.indexOf('#') > -1;
 };
 
 /**
@@ -61,4 +61,4 @@ const getHarmony = (_content) => {
 	};
 };
 
-export { getRoot, getBass, getKind, getHarmony };
+export { getNote, getKind, getHarmony };

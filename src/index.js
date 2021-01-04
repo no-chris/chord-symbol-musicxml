@@ -1,4 +1,4 @@
-import { getRoot, getKind, getBass, getHarmony } from './harmonyHelpers';
+import { getNote, getKind, getHarmony } from './harmonyHelpers';
 
 /**
  * @param {Chord} chord
@@ -6,12 +6,13 @@ import { getRoot, getKind, getBass, getHarmony } from './harmonyHelpers';
  */
 const musicXmlRenderer = (chord) => {
 	const harmony = [
-		getRoot(chord.formatted.rootNote),
+		getNote('root', chord.formatted.rootNote),
 		getKind(chord.normalized.quality, chord.formatted.descriptor),
 	];
 
 	if (chord.formatted.bassNote) {
-		harmony.push(getBass(chord.formatted.bassNote));
+		const bassNote = getNote('bass', chord.formatted.bassNote);
+		harmony.push(bassNote);
 	}
 
 	chord.musicxml = getHarmony(harmony);
