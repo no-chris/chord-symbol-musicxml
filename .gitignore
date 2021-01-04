@@ -1,0 +1,9 @@
+node_modules
+coverage
+lib/report.html
+
+# IDE files
+.idea/**/workspace.xml
+
+# Macos
+.DS_Store
