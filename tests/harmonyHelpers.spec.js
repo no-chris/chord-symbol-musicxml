@@ -1,5 +1,5 @@
 import { toXML } from 'jstoxml';
-import { getNote, getKind, getHarmony } from '../src/harmonyHelpers';
+import { getDegree, getNote, getKind, getHarmony } from '../src/harmonyHelpers';
 
 describe('getNote()', () => {
 	test('the module exposes a getNote() function', () => {
@@ -128,6 +128,75 @@ describe('getKind()', () => {
 		const expectedXml = '<kind text="m6">minor-sixth</kind>';
 		const kind = getKind('minor-sixth', 'm6');
 		const actualXml = toXML(kind);
+
+		expect(actualXml).toBe(expectedXml);
+	});
+});
+
+describe('getDegree()', () => {
+	test('the module exposes a getDegree() function', () => {
+		expect(typeof getDegree).toBe('function');
+	});
+
+	test('produces the expected Xml for <degree> (add, unaltered)', () => {
+		const expectedXml =
+			'<degree>' +
+			'<degree-value>5</degree-value>' +
+			'<degree-type>add</degree-type>' +
+			'</degree>';
+		const degree = getDegree('add', '5');
+		const actualXml = toXML(degree);
+
+		expect(actualXml).toBe(expectedXml);
+	});
+
+	test('produces the expected Xml for <degree> (add, sharpened)', () => {
+		const expectedXml =
+			'<degree>' +
+			'<degree-value>9</degree-value>' +
+			'<degree-alter>1</degree-alter>' +
+			'<degree-type>add</degree-type>' +
+			'</degree>';
+		const degree = getDegree('add', '#9');
+		const actualXml = toXML(degree);
+
+		expect(actualXml).toBe(expectedXml);
+	});
+
+	test('produces the expected Xml for <degree> (add, flattened)', () => {
+		const expectedXml =
+			'<degree>' +
+			'<degree-value>13</degree-value>' +
+			'<degree-alter>-1</degree-alter>' +
+			'<degree-type>add</degree-type>' +
+			'</degree>';
+		const degree = getDegree('add', 'b13');
+		const actualXml = toXML(degree);
+
+		expect(actualXml).toBe(expectedXml);
+	});
+
+	test('produces the expected Xml for <degree> (subtract)', () => {
+		const expectedXml =
+			'<degree>' +
+			'<degree-value>3</degree-value>' +
+			'<degree-type>subtract</degree-type>' +
+			'</degree>';
+		const degree = getDegree('subtract', '3');
+		const actualXml = toXML(degree);
+
+		expect(actualXml).toBe(expectedXml);
+	});
+
+	test('produces the expected Xml for <degree> (alter, sharpened)', () => {
+		const expectedXml =
+			'<degree>' +
+			'<degree-value>11</degree-value>' +
+			'<degree-alter>1</degree-alter>' +
+			'<degree-type>alter</degree-type>' +
+			'</degree>';
+		const degree = getDegree('alter', '#11');
+		const actualXml = toXML(degree);
 
 		expect(actualXml).toBe(expectedXml);
 	});

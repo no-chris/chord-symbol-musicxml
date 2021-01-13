@@ -46,6 +46,34 @@ const getNote = (noteKind, note) => {
 	};
 };
 
+/**
+ * @param {('add'|'alter'|'subtract')} type
+ * @param {String} degree chord-symbol degree ('3', 'b5', '#9'...)
+ * @returns {XmlNode}
+ */
+const getDegree = (type, degree) => {
+	const _content = [
+		{
+			_name: 'degree-value',
+			_content: degree.length > 1 ? degree.substring(1) : degree,
+		},
+	];
+	if (degree.length > 1) {
+		_content.push({
+			_name: 'degree-alter',
+			_content: hasSharp(degree) ? '1' : '-1',
+		});
+	}
+	_content.push({
+		_name: 'degree-type',
+		_content: type,
+	});
+	return {
+		_name: 'degree',
+		_content,
+	};
+};
+
 const hasSharp = (note) => {
 	return note.indexOf('#') > -1;
 };
@@ -61,4 +89,4 @@ const getHarmony = (_content) => {
 	};
 };
 
-export { getNote, getKind, getHarmony };
+export { getDegree, getNote, getKind, getHarmony };
