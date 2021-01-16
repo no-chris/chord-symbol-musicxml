@@ -1,7 +1,12 @@
 import { hasExactly } from '../../chord-symbol/src/helpers/hasElement';
 
 import kindToIntervals from './kindToIntervals';
-import { getNote, getKind, getHarmony, getDegree } from './harmonyHelpers';
+import {
+	getNote,
+	getKind,
+	getHarmony,
+	getDegree,
+} from './helpers/harmonyHelpers';
 
 /**
  * @param {Chord} chord
@@ -58,6 +63,7 @@ const getMusicXmlKindAndDegrees = (chord) => {
 		musicXmlKindText = chord.formatted.descriptor;
 
 		allDegrees = getAllDegrees(
+			musicXmlKind,
 			chord.normalized.adds,
 			chord.normalized.alterations,
 			chord.normalized.omits
@@ -65,9 +71,9 @@ const getMusicXmlKindAndDegrees = (chord) => {
 
 		if (chord.normalized.isSuspended) {
 			if (!chord.normalized.adds.includes('3')) {
-				allDegrees.push(getDegree('subtract', '3')); // todo: not printable
+				allDegrees.push(getDegree('subtract', '3', false));
 			}
-			allDegrees.push(getDegree('add', '4')); // todo: not printable
+			allDegrees.push(getDegree('add', '4', false));
 		}
 	}
 
@@ -141,11 +147,14 @@ const getHighestExtension = (chord) => {
 	return extensionMap[highestExtension];
 };
 
-const getAllDegrees = (adds, alterations, omits) => {
+const getAllDegrees = (kind, adds, alterations, omits) => {
 	const allDegrees = [];
 
 	adds.forEach((add) => {
-		allDegrees.push(getDegree('add', add));
+		const printObject = !(
+			add === '9' && ['major-sixth', 'minor-sixth'].includes(kind)
+		);
+		allDegrees.push(getDegree('add', add, printObject));
 	});
 
 	alterations.forEach((alteration) => {

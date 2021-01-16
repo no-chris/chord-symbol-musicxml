@@ -49,9 +49,10 @@ const getNote = (noteKind, note) => {
 /**
  * @param {('add'|'alter'|'subtract')} type
  * @param {String} degree - in the chord-symbol interval format ('3', 'b5', '#9'...)
+ * @param {Boolean} printObject - if the degree is printable or not, control the `print-object` attribute
  * @returns {XmlNode}
  */
-const getDegree = (type, degree) => {
+const getDegree = (type, degree, printObject = true) => {
 	const _content = [
 		{
 			_name: 'degree-value',
@@ -68,8 +69,15 @@ const getDegree = (type, degree) => {
 		_name: 'degree-type',
 		_content: type,
 	});
+
+	let _attrs;
+	if (!printObject) {
+		_attrs = { 'print-object': 'no' };
+	}
+
 	return {
 		_name: 'degree',
+		_attrs,
 		_content,
 	};
 };

@@ -1,9 +1,10 @@
 import { toXML } from 'jstoxml';
-
-import musicXmlRenderer from '../src/index';
 import _cloneDeep from 'lodash/cloneDeep';
 
+import musicXmlRenderer from '../src/index';
 import { chordParserFactory } from 'chord-symbol';
+import { getDegreesAsObjects } from './helpers/harmonyTestHelpers';
+
 const parseChord = chordParserFactory();
 
 describe('public API', () => {
@@ -116,5 +117,48 @@ describe('Harmony object', () => {
 			'</harmony>';
 
 		expect(actualXml).toBe(expectedXml);
+	});
+});
+
+describe('degrees implied by the kind/@text attribute should not be printable', () => {
+	describe.each([
+		/* */
+		['C7sus(b5)', ['3', '4'], ['5']],
+		['C9sus(b5)', ['3', '4'], ['5']],
+		['C13sus(b5)', ['3', '4'], ['5']],
+		['Cmi7sus(b5)', ['3', '4'], ['5']],
+		['Cmi9sus(b5)', ['3', '4'], ['5']],
+		['F#7SUS(add 3)', [], ['3']],
+		['C69', ['9']],
+		['Cmi69', ['9']],
+		/* */
+	])('%s', (symbol, nonPrintableDegrees, printableDegrees = []) => {
+		test(
+			'should have print-object="no" for degrees ' +
+				nonPrintableDegrees.join(', '),
+			() => {
+				expect.assertions(
+					nonPrintableDegrees.length + printableDegrees.length
+				);
+
+				const parsed = parseChord(symbol);
+				const filtered = musicXmlRenderer(parsed);
+				const allDegrees = getDegreesAsObjects(filtered.musicxml);
+
+				nonPrintableDegrees.forEach((degree) => {
+					const degreeObject = allDegrees.find(
+						(el) => el.value === degree
+					);
+					expect(degreeObject.printObject).toBe('no');
+				});
+
+				printableDegrees.forEach((degree) => {
+					const degreeObject = allDegrees.find(
+						(el) => el.value === degree
+					);
+					expect(degreeObject.printObject).toBeUndefined();
+				});
+			}
+		);
 	});
 });
