@@ -34,7 +34,7 @@ const getNote = (noteKind, note) => {
 			_content: note.substring(0, 1),
 		},
 	];
-	if (note.length > 1) {
+	if (hasAccidental(note)) {
 		_content.push({
 			_name: noteKind + '-alter',
 			_content: hasSharp(note) ? '1' : '-1',
@@ -48,17 +48,17 @@ const getNote = (noteKind, note) => {
 
 /**
  * @param {('add'|'alter'|'subtract')} type
- * @param {String} degree chord-symbol degree ('3', 'b5', '#9'...)
+ * @param {String} degree - in the chord-symbol interval format ('3', 'b5', '#9'...)
  * @returns {XmlNode}
  */
 const getDegree = (type, degree) => {
 	const _content = [
 		{
 			_name: 'degree-value',
-			_content: degree.length > 1 ? degree.substring(1) : degree,
+			_content: hasAccidental(degree) ? degree.substring(1) : degree,
 		},
 	];
-	if (degree.length > 1) {
+	if (hasAccidental(degree)) {
 		_content.push({
 			_name: 'degree-alter',
 			_content: hasSharp(degree) ? '1' : '-1',
@@ -72,6 +72,10 @@ const getDegree = (type, degree) => {
 		_name: 'degree',
 		_content,
 	};
+};
+
+const hasAccidental = (noteOrDegree) => {
+	return noteOrDegree.indexOf('#') > -1 || noteOrDegree.indexOf('b') > -1;
 };
 
 const hasSharp = (note) => {

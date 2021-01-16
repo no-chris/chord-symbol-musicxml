@@ -200,6 +200,18 @@ describe('getDegree()', () => {
 
 		expect(actualXml).toBe(expectedXml);
 	});
+
+	test('produces the expected Xml for <degree> (2 chars degree)', () => {
+		const expectedXml =
+			'<degree>' +
+			'<degree-value>11</degree-value>' +
+			'<degree-type>add</degree-type>' +
+			'</degree>';
+		const degree = getDegree('add', '11');
+		const actualXml = toXML(degree);
+
+		expect(actualXml).toBe(expectedXml);
+	});
 });
 
 describe('getHarmony()', () => {
@@ -222,7 +234,7 @@ describe('getHarmony()', () => {
 		expect(harmony).toEqual(expected);
 	});
 
-	test('produces the expected Xml for <kind>', () => {
+	test('produces the expected Xml for <harmony>', () => {
 		const expectedXml =
 			'<harmony>' +
 			'<foo1>bar1</foo1>' +
