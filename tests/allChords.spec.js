@@ -1,6 +1,7 @@
 import { chordParserFactory } from '../../chord-symbol/src/index';
 import musicXmlRenderer from '../src/index';
-import harmonyToIntervals from '../src/harmonyToIntervals';
+import harmonyToIntervals from '../src/helpers/harmonyToIntervals';
+import { getDegreesAsObjects } from './helpers/harmonyTestHelpers';
 import d from './allDegrees';
 
 describe.each(
@@ -14,9 +15,9 @@ describe.each(
 		['CSUS', 'C', 'sus4', 'suspended-fourth'],
 		['C+', 'C', '+', 'augmented'],
 		['C6', 'C', '6', 'major-sixth'],
-		['C6/9', 'C', '69', 'major-sixth', [d.add9]], // fixme not printed
+		['C6/9', 'C', '69', 'major-sixth', [d.add9]],
 		['CMA7(b5)', 'C', 'ma7', 'major-seventh', [d.alterb5]],
-		['C#MA7SUS(b5)', 'C', 'ma7sus', 'major-seventh', [d.omit3, d.add4, d.alterb5]], // fixme not printed
+		['C#MA7SUS(b5)', 'C', 'ma7sus', 'major-seventh', [d.omit3, d.add4, d.alterb5]],
 		['CMA7', 'C', 'ma7', 'major-seventh'],
 		['CMA7(#5)', 'C', 'ma7', 'major-seventh', [d.alterx5]],
 		['CMA7(#11)', 'C', 'ma7', 'major-seventh', [d.alterx11]],
@@ -45,7 +46,7 @@ describe.each(
 		['CMI6', 'C', 'mi6', 'minor-sixth', []],
 		['CMI(MA7)', 'C', 'miMa7', 'major-minor', []],
 		['CMI(add9)', 'C', 'mi', 'minor', [d.add9]],
-		['CMI6/9', 'C', 'mi69', 'minor-sixth', [d.add9]], // todo no print
+		['CMI6/9', 'C', 'mi69', 'minor-sixth', [d.add9]],
 		['C7', 'C', '7', 'dominant', []],
 		['C7(omit 3)', 'C', '7', 'dominant', [d.omit3]],
 		['C9', 'C', '9', 'dominant-ninth', []],
@@ -160,26 +161,7 @@ describe.each(
 		const kindXml = musicxml._content.find((el) => el._name === 'kind');
 		const kindValue = kindXml._content;
 
-		const allHarmonyDegrees = musicxml._content
-			.filter((el) => el._name === 'degree')
-			.map((degreeXml) => {
-				const valueXml = degreeXml._content.find(
-					(el) => el._name === 'degree-value'
-				);
-				const value = valueXml._content;
-
-				const atlerXml = degreeXml._content.find(
-					(el) => el._name === 'degree-alter'
-				);
-				const alter = atlerXml ? atlerXml._content : undefined;
-
-				const typeXml = degreeXml._content.find(
-					(el) => el._name === 'degree-type'
-				);
-				const type = typeXml._content;
-
-				return { value, alter, type };
-			});
+		const allHarmonyDegrees = getDegreesAsObjects(musicxml);
 
 		const harmonyIntervals = harmonyToIntervals(
 			kindValue,
