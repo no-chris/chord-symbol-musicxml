@@ -89,7 +89,7 @@ kindToIntervals['suspended-fourth'] = ['1', '4', '5']; // suspended-fourth (perf
 
 // ===== Other =====
 
-kindToIntervals['pedal'] = ['1']; // pedal (pedal-point bass)
+//kindToIntervals['pedal'] = ['1']; // pedal (pedal-point bass)
 kindToIntervals['power'] = ['1', '5']; // power (perfect fifth)
 kindToIntervals['other'] = ['1']; // The "other" kind is used when the harmony is entirely composed of add elements.
 //kindToIntervals['none'] = [];
