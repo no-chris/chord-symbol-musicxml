@@ -40,7 +40,7 @@ describe('public API', () => {
 
 describe('Harmony object', () => {
 	test('returns the expected harmony object', () => {
-		const parsed = parseChord('C#m7/Ab');
+		const parsed = parseChord('C#m7(add b9,#9)/Ab');
 		const filtered = musicXmlRenderer(parsed);
 
 		const expectedOutput = {
@@ -49,34 +49,36 @@ describe('Harmony object', () => {
 				{
 					_name: 'root',
 					_content: [
-						{
-							_name: 'root-step',
-							_content: 'C',
-						},
-						{
-							_name: 'root-alter',
-							_content: '1',
-						},
+						{ _name: 'root-step', _content: 'C' },
+						{ _name: 'root-alter', _content: '1' },
 					],
 				},
 				{
 					_name: 'kind',
-					_attrs: {
-						text: 'mi7',
-					},
-					_content: 'minor7',
+					_attrs: { text: 'mi7' },
+					_content: 'minor-seventh',
 				},
 				{
 					_name: 'bass',
 					_content: [
-						{
-							_name: 'bass-step',
-							_content: 'A',
-						},
-						{
-							_name: 'bass-alter',
-							_content: '-1',
-						},
+						{ _name: 'bass-step', _content: 'A' },
+						{ _name: 'bass-alter', _content: '-1' },
+					],
+				},
+				{
+					_name: 'degree',
+					_content: [
+						{ _name: 'degree-value', _content: '9' },
+						{ _name: 'degree-alter', _content: '-1' },
+						{ _name: 'degree-type', _content: 'add' },
+					],
+				},
+				{
+					_name: 'degree',
+					_content: [
+						{ _name: 'degree-value', _content: '9' },
+						{ _name: 'degree-alter', _content: '1' },
+						{ _name: 'degree-type', _content: 'add' },
 					],
 				},
 			],
@@ -86,7 +88,7 @@ describe('Harmony object', () => {
 	});
 
 	test('the returned object can be converted to a valid XML', () => {
-		const parsed = parseChord('C#m7/Ab');
+		const parsed = parseChord('C#m7(add b9,#9)/Ab');
 		const filtered = musicXmlRenderer(parsed);
 		const actualXml = toXML(filtered.musicxml);
 
@@ -96,11 +98,21 @@ describe('Harmony object', () => {
 			'<root-step>C</root-step>' +
 			'<root-alter>1</root-alter>' +
 			'</root>' +
-			'<kind text="mi7">minor7</kind>' +
+			'<kind text="mi7">minor-seventh</kind>' +
 			'<bass>' +
 			'<bass-step>A</bass-step>' +
 			'<bass-alter>-1</bass-alter>' +
 			'</bass>' +
+			'<degree>' +
+			'<degree-value>9</degree-value>' +
+			'<degree-alter>-1</degree-alter>' +
+			'<degree-type>add</degree-type>' +
+			'</degree>' +
+			'<degree>' +
+			'<degree-value>9</degree-value>' +
+			'<degree-alter>1</degree-alter>' +
+			'<degree-type>add</degree-type>' +
+			'</degree>' +
 			'</harmony>';
 
 		expect(actualXml).toBe(expectedXml);
