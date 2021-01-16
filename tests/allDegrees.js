@@ -24,5 +24,3 @@ allDegrees.alterx11 = { value: '11', alter: '1', type: 'alter' };
 allDegrees.alterb13 = { value: '13', alter: '-1', type: 'alter' };
 
 export default allDegrees;
-
-//todo: all allNotes
