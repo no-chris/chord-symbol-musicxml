@@ -73,7 +73,15 @@ const getMusicXmlKindAndDegrees = (chord) => {
 			if (!chord.normalized.adds.includes('3')) {
 				allDegrees.push(getDegree('subtract', '3', false));
 			}
-			allDegrees.push(getDegree('add', '4', false));
+			if (!chord.normalized.intents.eleventh) {
+				allDegrees.push(getDegree('add', '4', false));
+			}
+		}
+
+		if (musicXmlKind === 'major-minor' && isExtended(chord)) {
+			chord.normalized.extensions.forEach((el) =>
+				allDegrees.push(getDegree('add', el, false))
+			);
 		}
 	}
 

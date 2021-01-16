@@ -131,6 +131,10 @@ describe('degrees implied by the kind/@text attribute should not be printable', 
 		['F#7SUS(add 3)', [], ['3']],
 		['C69', ['9']],
 		['Cmi69', ['9']],
+		['Cmi69(add11)', ['9'], ['11']],
+		['CmiMa9', ['9'], []],
+		['CmiMa11', ['9', '11'], []],
+		['CmiMa13', ['9', '11', '13'], []],
 		/* */
 	])('%s', (symbol, nonPrintableDegrees, printableDegrees = []) => {
 		test(
