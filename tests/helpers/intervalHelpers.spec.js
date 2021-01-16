@@ -2,7 +2,7 @@ import {
 	addInterval,
 	removeInterval,
 	sortIntervals,
-} from '../src/intervalHelpers';
+} from '../../src/helpers/intervalHelpers';
 
 describe('addInterval', () => {
 	test('do not modify the original array', () => {

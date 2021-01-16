@@ -1,5 +1,10 @@
 import { toXML } from 'jstoxml';
-import { getDegree, getNote, getKind, getHarmony } from '../src/harmonyHelpers';
+import {
+	getDegree,
+	getNote,
+	getKind,
+	getHarmony,
+} from '../../src/helpers/harmonyHelpers';
 
 describe('getNote()', () => {
 	test('the module exposes a getNote() function', () => {
@@ -208,6 +213,18 @@ describe('getDegree()', () => {
 			'<degree-type>add</degree-type>' +
 			'</degree>';
 		const degree = getDegree('add', '11');
+		const actualXml = toXML(degree);
+
+		expect(actualXml).toBe(expectedXml);
+	});
+
+	test('produces the expected Xml for <degree> (print-object = no)', () => {
+		const expectedXml =
+			'<degree print-object="no">' +
+			'<degree-value>11</degree-value>' +
+			'<degree-type>add</degree-type>' +
+			'</degree>';
+		const degree = getDegree('add', '11', false);
 		const actualXml = toXML(degree);
 
 		expect(actualXml).toBe(expectedXml);

@@ -1,4 +1,4 @@
-import { removeInterval } from './intervalHelpers';
+import { removeInterval } from './helpers/intervalHelpers';
 
 const kindToIntervals = {};
 

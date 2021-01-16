@@ -1,4 +1,4 @@
-import kindToIntervals from './kindToIntervals';
+import kindToIntervals from '../kindToIntervals';
 
 import { addInterval, removeInterval, sortIntervals } from './intervalHelpers';
 

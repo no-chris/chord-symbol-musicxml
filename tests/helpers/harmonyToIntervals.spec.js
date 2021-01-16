@@ -1,6 +1,6 @@
-import harmonyToIntervals from '../src/harmonyToIntervals';
+import harmonyToIntervals from '../../src/helpers/harmonyToIntervals';
 import { chordParserFactory } from 'chord-symbol';
-import d from './allDegrees';
+import d from '../allDegrees';
 
 describe('harmonyToIntervals', () => {
 	test('is a function', () => {
