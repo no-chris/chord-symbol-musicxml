@@ -1,4 +1,4 @@
-import { hasExactly } from '../../chord-symbol/src/helpers/hasElement';
+import { hasExactly } from '../../chord-symbol/src/helpers/hasElement'; //fixme
 
 import kindToIntervals from './kindToIntervals';
 import {
@@ -19,14 +19,13 @@ const musicXmlRenderer = (chord) => {
 		allDegrees,
 	} = getMusicXmlKindAndDegrees(chord);
 
-	const harmonyElement = [
-		getNote('root', chord.formatted.rootNote),
-		getKind(musicXmlKind, musicXmlKindText),
-	];
+	const harmonyElement = [];
+
+	harmonyElement.push(getNote('root', chord.formatted.rootNote));
+	harmonyElement.push(getKind(musicXmlKind, musicXmlKindText));
 
 	if (chord.formatted.bassNote) {
-		const bassNote = getNote('bass', chord.formatted.bassNote);
-		harmonyElement.push(bassNote);
+		harmonyElement.push(getNote('bass', chord.formatted.bassNote));
 	}
 
 	if (allDegrees.length) {
@@ -95,46 +94,37 @@ const getMusicXmlKindAndDegrees = (chord) => {
 const getMusicXmlKind = (chord) => {
 	let musicXmlKind;
 
-	switch (chord.normalized.quality) {
-		case 'major':
-		case 'minor':
-		case 'augmented':
-		case 'diminished':
-		case 'power':
-			musicXmlKind = chord.normalized.quality;
-			break;
-		case 'major6':
-		case 'minor6':
-			musicXmlKind = chord.normalized.quality.replace('6', '-sixth');
-			break;
-		case 'dominant7':
-			musicXmlKind = 'dominant';
-			if (isExtended(chord)) {
-				musicXmlKind += '-' + getHighestExtension(chord);
-			}
-			break;
-		case 'major7':
-			musicXmlKind = 'major-';
-			musicXmlKind += isExtended(chord)
-				? getHighestExtension(chord)
-				: 'seventh';
-			break;
-		case 'minor7':
-			musicXmlKind = 'minor-';
-			musicXmlKind += isExtended(chord)
-				? getHighestExtension(chord)
-				: 'seventh';
-			break;
-		case 'diminished7':
-			musicXmlKind = 'diminished-seventh';
-			break;
-		case 'minorMajor7':
-			musicXmlKind = 'major-minor';
-			break;
-		case 'bass':
-			musicXmlKind = 'other';
-			break;
+	const { quality } = chord.normalized;
+
+	if (quality === 'dominant7') {
+		musicXmlKind = isExtended(chord)
+			? 'dominant-' + getHighestExtension(chord)
+			: 'dominant';
+	} else if (quality === 'major7') {
+		musicXmlKind = isExtended(chord)
+			? 'major-' + getHighestExtension(chord)
+			: 'major-seventh';
+	} else if (quality === 'minor7') {
+		musicXmlKind = isExtended(chord)
+			? 'minor-' + getHighestExtension(chord)
+			: 'minor-seventh';
+	} else {
+		const qualityToKind = {
+			major: 'major',
+			minor: 'minor',
+			augmented: 'augmented',
+			diminished: 'diminished',
+			minorMajor7: 'major-minor',
+			diminished7: 'diminished-seventh',
+			major6: 'major-sixth',
+			minor6: 'minor-sixth',
+			power: 'power',
+			bass: 'other',
+		};
+
+		musicXmlKind = qualityToKind[chord.normalized.quality];
 	}
+
 	return musicXmlKind;
 };
 

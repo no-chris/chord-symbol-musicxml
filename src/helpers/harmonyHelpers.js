@@ -1,5 +1,5 @@
 /**
- * xxxx xxxxx //fixme
+ * Xml note in the jstoxml format
  * @typedef {Object} XmlNode
  * @type {Object}
  * @property {String} _name - xml tag
@@ -49,7 +49,7 @@ const getNote = (noteKind, note) => {
 /**
  * @param {('add'|'alter'|'subtract')} type
  * @param {String} degree - in the chord-symbol interval format ('3', 'b5', '#9'...)
- * @param {Boolean} printObject - if the degree is printable or not, control the `print-object` attribute
+ * @param {Boolean} printObject - if the degree is printable or not; controls the `print-object` attribute
  * @returns {XmlNode}
  */
 const getDegree = (type, degree, printObject = true) => {
