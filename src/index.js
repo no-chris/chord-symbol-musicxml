@@ -58,15 +58,11 @@ const getMusicXmlKindAndDegrees = (chord) => {
 		musicXmlKind = 'suspended-fourth';
 		musicXmlKindText = 'sus4';
 	} else {
+		// Generic case
 		musicXmlKind = getMusicXmlKind(chord);
 		musicXmlKindText = chord.formatted.descriptor;
 
-		allDegrees = getAllDegrees(
-			musicXmlKind,
-			chord.normalized.adds,
-			chord.normalized.alterations,
-			chord.normalized.omits
-		);
+		allDegrees = getAllDegrees(musicXmlKind, chord);
 
 		if (chord.normalized.isSuspended) {
 			if (!chord.normalized.adds.includes('3')) {
@@ -145,21 +141,22 @@ const getHighestExtension = (chord) => {
 	return extensionMap[highestExtension];
 };
 
-const getAllDegrees = (kind, adds, alterations, omits) => {
+const getAllDegrees = (kind, chord) => {
 	const allDegrees = [];
 
-	adds.forEach((add) => {
+	chord.normalized.adds.forEach((add) => {
 		const printObject = !(
 			add === '9' && ['major-sixth', 'minor-sixth'].includes(kind)
 		);
 		allDegrees.push(getDegree('add', add, printObject));
 	});
 
-	alterations.forEach((alteration) => {
-		allDegrees.push(getDegree('alter', alteration));
+	chord.normalized.alterations.forEach((alteration) => {
+		const printObject = !chord.normalized.intents.alt;
+		allDegrees.push(getDegree('alter', alteration, printObject));
 	});
 
-	omits.forEach((omit) => {
+	chord.normalized.omits.forEach((omit) => {
 		allDegrees.push(getDegree('subtract', omit));
 	});
 

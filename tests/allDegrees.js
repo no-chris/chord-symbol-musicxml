@@ -6,6 +6,7 @@ allDegrees.omit5 = { value: '5', type: 'subtract' };
 
 allDegrees.add3 = { value: '3', type: 'add' };
 allDegrees.add4 = { value: '4', type: 'add' };
+allDegrees.addb6 = { value: '6', alter: '-1', type: 'add' };
 allDegrees.add6 = { value: '6', type: 'add' };
 allDegrees.addma7 = { value: '7', type: 'add' };
 allDegrees.addb9 = { value: '9', alter: '-1', type: 'add' };

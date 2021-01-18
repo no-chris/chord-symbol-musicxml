@@ -2,8 +2,11 @@ import { toXML } from 'jstoxml';
 import _cloneDeep from 'lodash/cloneDeep';
 
 import musicXmlRenderer from '../src/index';
-import { chordParserFactory } from 'chord-symbol';
-import { getDegreesAsObjects } from './helpers/harmonyTestHelpers';
+import { chordParserFactory } from '../../chord-symbol/src/index';
+import {
+	getDegreesAsObjects,
+	formatDegree,
+} from './helpers/harmonyTestHelpers';
 
 const parseChord = chordParserFactory();
 
@@ -122,46 +125,39 @@ describe('Harmony object', () => {
 
 describe('degrees implied by the kind/@text attribute should not be printable', () => {
 	describe.each([
-		/* */
-		['C7sus(b5)', ['3', '4'], ['5']],
-		['C9sus(b5)', ['3', '4'], ['5']],
-		['C13sus(b5)', ['3', '4'], ['5']],
-		['Cmi7sus(b5)', ['3', '4'], ['5']],
-		['Cmi9sus(b5)', ['3', '4'], ['5']],
-		['F#7SUS(add 3)', [], ['3']],
+		['C7sus(b5)', ['3', '4'], ['b5']],
+		['C9sus(b5)', ['3', '4'], ['b5']],
+		['C13sus(b5)', ['3', '4'], ['b5']],
+		['Cmi7sus(b5)', ['3', '4'], ['b5']],
+		['Cmi9sus(b5)', ['3', '4'], ['b5']],
+		['F#7SUS(add 3)', ['4'], ['3']],
 		['C69', ['9']],
 		['Cmi69', ['9']],
 		['Cmi69(add11)', ['9'], ['11']],
 		['CmiMa9', ['9'], []],
 		['CmiMa11', ['9', '11'], []],
 		['CmiMa13', ['9', '11', '13'], []],
-		/* */
+		['C7alt', ['b5', '#5', 'b9', '#9', '#11', 'b13'], []],
 	])('%s', (symbol, nonPrintableDegrees, printableDegrees = []) => {
 		test(
 			'should have print-object="no" for degrees ' +
 				nonPrintableDegrees.join(', '),
 			() => {
-				expect.assertions(
-					nonPrintableDegrees.length + printableDegrees.length
-				);
-
 				const parsed = parseChord(symbol);
 				const filtered = musicXmlRenderer(parsed);
 				const allDegrees = getDegreesAsObjects(filtered.musicxml);
 
-				nonPrintableDegrees.forEach((degree) => {
-					const degreeObject = allDegrees.find(
-						(el) => el.value === degree
-					);
-					expect(degreeObject.printObject).toBe('no');
-				});
+				const actualNonPrintableDegrees = allDegrees
+					.filter((el) => el.printObject === 'no')
+					.map(formatDegree);
 
-				printableDegrees.forEach((degree) => {
-					const degreeObject = allDegrees.find(
-						(el) => el.value === degree
-					);
-					expect(degreeObject.printObject).toBeUndefined();
-				});
+				expect(actualNonPrintableDegrees).toEqual(nonPrintableDegrees);
+
+				const actualPrintableDegrees = allDegrees
+					.filter((el) => el.printObject !== 'no')
+					.map(formatDegree);
+
+				expect(actualPrintableDegrees).toEqual(printableDegrees);
 			}
 		);
 	});
