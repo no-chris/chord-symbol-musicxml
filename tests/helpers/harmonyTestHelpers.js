@@ -31,4 +31,14 @@ const getDegreesAsObjects = (harmonyXml) => {
 		});
 };
 
-export { getDegreesAsObjects };
+const formatDegree = (degree) => {
+	if (degree.alter === '-1') {
+		return 'b' + degree.value;
+	} else if (degree.alter === '1') {
+		return '#' + degree.value;
+	} else {
+		return degree.value;
+	}
+};
+
+export { getDegreesAsObjects, formatDegree };

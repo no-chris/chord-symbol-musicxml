@@ -1,4 +1,4 @@
-import { getDegreesAsObjects } from './harmonyTestHelpers';
+import { getDegreesAsObjects, formatDegree } from './harmonyTestHelpers';
 
 describe('getDegreesAsObjects', () => {
 	test('returns an array of object from an "xml" data structure', () => {
@@ -58,5 +58,20 @@ describe('getDegreesAsObjects', () => {
 
 		const actual = getDegreesAsObjects(input);
 		expect(actual).toEqual(expected);
+	});
+});
+
+describe('formatDegree()', () => {
+	describe.each([
+		['b3', { value: '3', alter: '-1' }],
+		['3', { value: '3' }],
+		['b5', { value: '5', alter: '-1' }],
+		['5', { value: '5' }],
+		['#5', { value: '5', alter: '1' }],
+	])('%s', (expected, degree) => {
+		test('degree should be formatted ' + expected, () => {
+			const formatted = formatDegree(degree);
+			expect(formatted).toEqual(expected);
+		});
 	});
 });
