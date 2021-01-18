@@ -1,6 +1,6 @@
-import { hasExactly } from '../../chord-symbol/src/helpers/hasElement'; //fixme
-
 import kindToIntervals from './kindToIntervals';
+
+import { isEqual } from './helpers/intervalHelpers';
 import {
 	getNote,
 	getKind,
@@ -45,16 +45,16 @@ const getMusicXmlKindAndDegrees = (chord) => {
 	const { intervals } = chord.normalized;
 
 	// handle special cases first:
-	if (hasExactly(intervals, kindToIntervals['half-diminished'])) {
+	if (isEqual(intervals, kindToIntervals['half-diminished'])) {
 		musicXmlKind = 'half-diminished';
 		musicXmlKindText = 'ø';
-	} else if (hasExactly(intervals, kindToIntervals['augmented-seventh'])) {
+	} else if (isEqual(intervals, kindToIntervals['augmented-seventh'])) {
 		musicXmlKind = 'augmented-seventh';
 		musicXmlKindText = '+7';
-	} else if (hasExactly(intervals, kindToIntervals['suspended-second'])) {
+	} else if (isEqual(intervals, kindToIntervals['suspended-second'])) {
 		musicXmlKind = 'suspended-second';
 		musicXmlKindText = 'sus2';
-	} else if (hasExactly(intervals, kindToIntervals['suspended-fourth'])) {
+	} else if (isEqual(intervals, kindToIntervals['suspended-fourth'])) {
 		musicXmlKind = 'suspended-fourth';
 		musicXmlKindText = 'sus4';
 	} else {

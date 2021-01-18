@@ -1,4 +1,4 @@
-import harmonyToIntervals from '../../src/helpers/harmonyToIntervals';
+import harmonyToIntervals from './harmonyToIntervals';
 import { chordParserFactory } from 'chord-symbol';
 import d from '../allDegrees';
 
@@ -42,7 +42,7 @@ describe('harmonyToIntervals', () => {
 		['C5', 'power'],
 		/*
 		['C', 'Tristan'],
-		['C', 'other'],
+		['C', 'pedal'],
 		['C', 'none]'
 		 */
 		['C(add9)', 'major', [d.add9]],

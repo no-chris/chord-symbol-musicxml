@@ -2,6 +2,7 @@ import {
 	addInterval,
 	removeInterval,
 	sortIntervals,
+	isEqual,
 } from '../../src/helpers/intervalHelpers';
 
 describe('addInterval', () => {
@@ -104,5 +105,42 @@ describe('sortIntervals', () => {
 			'b13',
 			'13',
 		]);
+	});
+});
+
+describe('isEqual()', () => {
+	describe.each([
+		[
+			['1', '3', '5'],
+			['1', '3', '5'],
+		],
+		[
+			['1', 'b3', 'b5', 'b7'],
+			['1', 'b3', 'b5', 'b7'],
+		],
+		[
+			['b3', 'b5', 'b7', '1'],
+			['1', 'b3', 'b5', 'b7'],
+		],
+	])('Should be equal:', (int1, int2) => {
+		test(int1.join(',') + ' = ' + int2.join(','), () => {
+			expect(isEqual(int1, int2)).toBe(true);
+		});
+	});
+
+	describe.each([
+		[
+			['1', '3', '5'],
+			['1', '5'],
+		],
+		[
+			['1', 'b3', 'b5', 'b7'],
+			['1', 'b3', 'b5', 'bb7'],
+		],
+		[['5'], ['b5']],
+	])('Should NOT be equal:', (int1, int2) => {
+		test(int1.join(',') + ' != ' + int2.join(','), () => {
+			expect(isEqual(int1, int2)).toBe(false);
+		});
 	});
 });

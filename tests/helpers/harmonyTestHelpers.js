@@ -1,3 +1,7 @@
+/**
+ * Help manipulate jstoxml structures to make unit testing easier
+ */
+
 const getDegreesAsObjects = (harmonyXml) => {
 	return harmonyXml._content
 		.filter((el) => el._name === 'degree')

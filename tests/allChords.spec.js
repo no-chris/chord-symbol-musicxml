@@ -1,7 +1,7 @@
-import { chordParserFactory } from '../../chord-symbol/src/index';
+import { chordParserFactory } from '../../chord-symbol/src/index'; // fixme
 
 import musicXmlRenderer from '../src/index';
-import harmonyToIntervals from '../src/helpers/harmonyToIntervals';
+import harmonyToIntervals from './helpers/harmonyToIntervals';
 import {
 	getDegreesAsObjects,
 	formatDegree,
@@ -322,36 +322,15 @@ describe.each(
 			expect(actualNonPrintableDegrees).toEqual(nonPrintableDegrees);
 		});
 
-		// fixme: a bit cumbersome?
-		test('should detect degrees', () => {
-			let assertionsCount = 1 + allDegrees.length * 3;
-			expect.assertions(assertionsCount);
-
-			const allDegreesXml = musicxml._content.filter(
-				(el) => el._name === 'degree'
-			);
-			expect(allDegreesXml.length).toEqual(allDegrees.length);
-
-			allDegrees.forEach((degree, i) => {
-				const { value, alter, type } = degree;
-
-				const degreeXml = allDegreesXml[i];
-
-				const valueXml = degreeXml._content.find(
-					(el) => el._name === 'degree-value'
-				);
-				expect(valueXml._content).toEqual(value);
-
-				const alterXml = degreeXml._content.find(
-					(el) => el._name === 'degree-alter'
-				);
-				expect((alterXml || {})._content).toEqual(alter);
-
-				const typeXml = degreeXml._content.find(
-					(el) => el._name === 'degree-type'
-				);
-				expect(typeXml._content).toEqual(type);
+		test('should create the expected degrees elements', () => {
+			// remove the "printObject" attribute that is not in the expected result
+			const actualHarmonyDegrees = allHarmonyDegrees.map((el) => {
+				const newEl = { ...el };
+				delete newEl.printObject;
+				return newEl;
 			});
+
+			expect(actualHarmonyDegrees).toEqual(allDegrees);
 		});
 
 		test('the filter should produce an harmony element describing the same intervals than chord-symbol', () => {

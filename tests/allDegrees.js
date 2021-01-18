@@ -1,3 +1,7 @@
+/**
+ * Useful data structures to perform assertions on the generated Harmony object
+ */
+
 const allDegrees = {};
 
 allDegrees.omit3 = { value: '3', type: 'subtract' };

@@ -1,4 +1,8 @@
 /**
+ * Those helpers allow to create the jstoxml data structures that represents the harmony object
+ */
+
+/**
  * Xml note in the jstoxml format
  * @typedef {Object} XmlNode
  * @type {Object}

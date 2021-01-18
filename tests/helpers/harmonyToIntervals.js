@@ -1,9 +1,19 @@
-import kindToIntervals from '../kindToIntervals';
+/**
+ * Convert an harmony object to a list of intervals, based on the kind and the individual degrees.
+ * Helps perform holistic testing of the generated harmony object, that should yield the same interval list
+ * than the original chord-symbol object.
+ */
 
-import { addInterval, removeInterval, sortIntervals } from './intervalHelpers';
+import kindToIntervals from '../../src/kindToIntervals';
+
+import {
+	addInterval,
+	removeInterval,
+	sortIntervals,
+} from '../../src/helpers/intervalHelpers';
 
 const harmonyToIntervals = (kind, allDegrees = []) => {
-	let allIntervals = [...kindToIntervals[kind]]; // todo: error handling
+	let allIntervals = [...kindToIntervals[kind]];
 
 	allDegrees.forEach((degree) => {
 		const formattedInterval = getInterval(degree.value, degree.alter);

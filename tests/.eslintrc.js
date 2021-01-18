@@ -6,7 +6,7 @@ module.exports = {
 	rules: {
 		'no-restricted-imports': ['off'],
 		'max-len': ['off'],
-		'max-params': ['warn', { max: 6 }],
+		'max-params': ['warn', { max: 7 }],
 		'max-lines': ['error', { max: 550 }],
 	},
 };

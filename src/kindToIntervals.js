@@ -1,3 +1,7 @@
+/**
+ * Mapping of MusicXML kind values to actual intervals
+ */
+
 import { removeInterval } from './helpers/intervalHelpers';
 
 const kindToIntervals = {};
@@ -77,21 +81,25 @@ kindToIntervals['suspended-second'] = ['1', '5', '9']; // suspended-second (majo
 kindToIntervals['suspended-fourth'] = ['1', '4', '5']; // suspended-fourth (perfect fourth, perfect fifth)
 
 /*
-// Functional sixths:
-{ qualityIntervals: [], quality: 'Neapolitan' }, //
-{ qualityIntervals: [], quality: 'Italian' }, //
-{ qualityIntervals: [], quality: 'French' }, //
-{ qualityIntervals: [], quality: 'German' }, //
+Those kinds are either used for functional analysis, or cannot be converted to an interval list
 
-// Other:
-{ qualityIntervals: [], quality: 'Tristan' }, //
+// ===== Functional sixths =====
+
+kindToIntervals['Neapolitan'] = [];
+kindToIntervals['Italian'] = [];
+kindToIntervals['French'] = [];
+kindToIntervals['German'] = [];
+
+// ===== Other =====
+
+kindToIntervals['Tristan'] = [];
+kindToIntervals['pedal'] = []; // pedal (pedal-point bass)
+kindToIntervals['none'] = [];
 */
 
 // ===== Other =====
 
-//kindToIntervals['pedal'] = ['1']; // pedal (pedal-point bass)
 kindToIntervals['power'] = ['1', '5']; // power (perfect fifth)
 kindToIntervals['other'] = ['1']; // The "other" kind is used when the harmony is entirely composed of add elements.
-//kindToIntervals['none'] = [];
 
 export default kindToIntervals;

@@ -1,3 +1,7 @@
+/**
+ * High level API to manipulate arrays of intervals.
+ */
+
 const addInterval = (allIntervals, intervalToAdd) => {
 	const intervalsClone = [...allIntervals];
 
@@ -43,4 +47,14 @@ const adjustSortingValue = (sortingValue, interval) => {
 	return sortingValue;
 };
 
-export { addInterval, removeInterval, sortIntervals };
+const isEqual = (intervals1, intervals2) => {
+	if (intervals1.length !== intervals2.length) {
+		return false;
+	}
+	const sorted1 = sortIntervals(intervals1);
+	const sorted2 = sortIntervals(intervals2);
+
+	return sorted1.every((interval, i) => sorted2[i] === interval);
+};
+
+export { addInterval, removeInterval, sortIntervals, isEqual };

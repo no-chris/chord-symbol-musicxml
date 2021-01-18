@@ -1,3 +1,7 @@
+/**
+ * Useful data structures to perform assertions on the generated Harmony object
+ */
+
 const allNotes = {
 	C: { step: 'C' },
 	'C#': { step: 'C', alter: '1' },
