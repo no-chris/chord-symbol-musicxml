@@ -14,14 +14,15 @@
   },
   "author": "Christophe Noël",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "chord-symbol": "^2.1.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@size-limit/preset-small-lib": "^4.9.1",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.2",
-    "chord-symbol": "^2.0.0",
     "clean-webpack-plugin": "^3.0.0",
     "coveralls": "^3.1.0",
     "eslint": "^7.17.0",

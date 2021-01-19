@@ -1,4 +1,4 @@
-import { chordParserFactory } from '../../chord-symbol/src/index'; // fixme
+import { chordParserFactory } from 'chord-symbol';
 
 import musicXmlRenderer from '../src/index';
 import harmonyToIntervals from './helpers/harmonyToIntervals';
