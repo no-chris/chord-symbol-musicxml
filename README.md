@@ -23,8 +23,11 @@ const parsed = parseChord('C7sus(b5)/Gb');
 const rendered = renderChord(parsed);
 
 console.log(rendered.musicxml);
+```
 
-/*
+Will output the following javascript object:
+
+```javascript
 {
     _name: 'harmony',
     _content: [
@@ -39,7 +42,10 @@ console.log(rendered.musicxml);
         },
         {
             _name: 'bass',
-            _content: [{ _name: 'bass-step', _content: 'G' }],
+            _content: [
+	    	{ _name: 'bass-step', _content: 'G' },
+		{ _name: 'bass-alter', _content: '-1' }
+	    ],
         },
         {
             _name: 'degree',
@@ -67,13 +73,19 @@ console.log(rendered.musicxml);
         },
     ],
 }
- */
+```
 
+If you want some XML string, you can use `jstoxml` to convert the Javascript into an XML entity
+
+```javascript
 const xml = toXML(rendered.musicxml);
 
 console.log(xml);
+```
 
-/*
+Will output:
+
+```xml
 <harmony>
 	<root>
 		<root-step>C</root-step>
@@ -97,5 +109,4 @@ console.log(xml);
 		<degree-type>alter</degree-type>
 	</degree>
 </harmony>
- */
 ```
