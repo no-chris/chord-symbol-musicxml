@@ -1,3 +1,7 @@
+[![Build Status](https://www.travis-ci.com/no-chris/chord-symbol-musicxml.svg?branch=main)](https://www.travis-ci.com/no-chris/chord-symbol-musicxml)
+[![Coverage Status](https://coveralls.io/repos/github/no-chris/chord-symbol-musicxml/badge.svg?branch=main)](https://coveralls.io/github/no-chris/chord-symbol-musicxml?branch=main)
+[![codebeat badge](https://codebeat.co/badges/a51aca5d-ec03-4eaf-a04d-bff666a0cf4e)](https://codebeat.co/projects/github-com-no-chris-chord-symbol-musicxml-main)
+
 `chord-symbol-musicxml` is a pluggable rendering filter for `chord-symbol` that generates chords in the MusicXml notation. It outputs a plain Javascript object that can easily be turned into an XML `harmony` entity using a library such as [jstoxml](https://github.com/davidcalhoun/jstoxml).
 
 # Installation
