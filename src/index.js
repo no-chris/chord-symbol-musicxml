@@ -163,4 +163,4 @@ const getAllDegrees = (kind, chord) => {
 	return allDegrees;
 };
 
-export default musicXmlRenderer;
+export { musicXmlRenderer };

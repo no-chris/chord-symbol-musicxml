@@ -1,6 +1,6 @@
 import { chordParserFactory } from 'chord-symbol';
 
-import musicXmlRenderer from '../src/index';
+import { musicXmlRenderer } from '../src/index';
 import harmonyToIntervals from './helpers/harmonyToIntervals';
 import {
 	getDegreesAsObjects,

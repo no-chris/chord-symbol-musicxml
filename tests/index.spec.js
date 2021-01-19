@@ -1,7 +1,7 @@
 import { toXML } from 'jstoxml';
 import _cloneDeep from 'lodash/cloneDeep';
 
-import musicXmlRenderer from '../src/index';
+import { musicXmlRenderer } from '../src/index';
 import { chordParserFactory } from 'chord-symbol';
 import {
 	getDegreesAsObjects,
