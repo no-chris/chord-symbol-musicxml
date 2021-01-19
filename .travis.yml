@@ -3,7 +3,7 @@ node_js:
 - 14.4.0
 branches:
   only:
-  - master
+  - main
 cache:
   directories:
   - node_modules
