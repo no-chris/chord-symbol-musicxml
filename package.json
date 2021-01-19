@@ -10,7 +10,8 @@
     "size": "size-limit",
     "sloc": "echo \"Source code:\" > SLOC && npx sloc src >> SLOC && echo \"Tests:\" >> SLOC && npx sloc tests >> SLOC && echo \"Total:\" >> SLOC && npx sloc src tests >> SLOC",
     "format": "prettier --write \"**/*.{js,jsx,json,ts,md}\"",
-    "build": "npm run lint && npm run test && npm run bundle && npm run sloc && npm run size && npm run format"
+    "build": "npm run lint && npm run test && npm run bundle && npm run sloc && npm run size && npm run format",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "author": "Christophe Noël",
   "license": "MIT",
