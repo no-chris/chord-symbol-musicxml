@@ -147,6 +147,7 @@ describe('getDegree()', () => {
 		const expectedXml =
 			'<degree>' +
 			'<degree-value>5</degree-value>' +
+			'<degree-alter>0</degree-alter>' +
 			'<degree-type>add</degree-type>' +
 			'</degree>';
 		const degree = getDegree('add', '5');
@@ -185,6 +186,7 @@ describe('getDegree()', () => {
 		const expectedXml =
 			'<degree>' +
 			'<degree-value>3</degree-value>' +
+			'<degree-alter>0</degree-alter>' +
 			'<degree-type>subtract</degree-type>' +
 			'</degree>';
 		const degree = getDegree('subtract', '3');
@@ -210,6 +212,7 @@ describe('getDegree()', () => {
 		const expectedXml =
 			'<degree>' +
 			'<degree-value>11</degree-value>' +
+			'<degree-alter>0</degree-alter>' +
 			'<degree-type>add</degree-type>' +
 			'</degree>';
 		const degree = getDegree('add', '11');
@@ -222,6 +225,7 @@ describe('getDegree()', () => {
 		const expectedXml =
 			'<degree print-object="no">' +
 			'<degree-value>11</degree-value>' +
+			'<degree-alter>0</degree-alter>' +
 			'<degree-type>add</degree-type>' +
 			'</degree>';
 		const degree = getDegree('add', '11', false);
