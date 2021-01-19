@@ -14,7 +14,7 @@ npm install --save chord-symbol-musicxml
 
 ```javascript
 import { chordParserFactory, chordRendererFactory } from 'chord-symbol';
-import { musicXmlRenderer } from 'chord-symbol-musicxmxl';
+import { musicXmlRenderer } from 'chord-symbol-musicxml';
 
 const parseChord = chordParserFactory();
 const renderChord = chordRendererFactory({

@@ -62,17 +62,15 @@ const getDegree = (type, degree, printObject = true) => {
 			_name: 'degree-value',
 			_content: hasAccidental(degree) ? degree.substring(1) : degree,
 		},
-	];
-	if (hasAccidental(degree)) {
-		_content.push({
+		{
 			_name: 'degree-alter',
-			_content: hasSharp(degree) ? '1' : '-1',
-		});
-	}
-	_content.push({
-		_name: 'degree-type',
-		_content: type,
-	});
+			_content: getAlter(degree),
+		},
+		{
+			_name: 'degree-type',
+			_content: type,
+		},
+	];
 
 	let _attrs;
 	if (!printObject) {
@@ -84,6 +82,13 @@ const getDegree = (type, degree, printObject = true) => {
 		_attrs,
 		_content,
 	};
+};
+
+const getAlter = (degree) => {
+	if (hasAccidental(degree)) {
+		return hasSharp(degree) ? '1' : '-1';
+	}
+	return '0';
 };
 
 const hasAccidental = (noteOrDegree) => {
