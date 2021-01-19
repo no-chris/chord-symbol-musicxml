@@ -11,7 +11,6 @@ npm install --save chord-symbol-musicxml
 ```javascript
 import { chordParserFactory, chordRendererFactory } from 'chord-symbol';
 import { musicXmlRenderer } from 'chord-symbol-musicxmxl';
-import { toXML } from 'jstoxml';
 
 const parseChord = chordParserFactory();
 const renderChord = chordRendererFactory({
@@ -25,65 +24,67 @@ const rendered = renderChord(parsed);
 console.log(rendered.musicxml);
 ```
 
-Will output the following javascript object:
+`rendered.musicxml` contains the following object structure:
 
-```javascript
+```json
 {
-    _name: 'harmony',
-    _content: [
-        {
-            _name: 'root',
-            _content: [{ _name: 'root-step', _content: 'C' }],
-        },
-        {
-            _name: 'kind',
-            _attrs: { text: '7sus' },
-            _content: 'dominant',
-        },
-        {
-            _name: 'bass',
-            _content: [
-	    	{ _name: 'bass-step', _content: 'G' },
-		{ _name: 'bass-alter', _content: '-1' }
-	    ],
-        },
-        {
-            _name: 'degree',
-            _attrs: { 'print-object': 'no' },
-            _content: [
-                { _name: 'degree-value', _content: '3' },
-                { _name: 'degree-type', _content: 'subtract' },
-            ],
-        },
-        {
-            _name: 'degree',
-            _attrs: { 'print-object': 'no' },
-            _content: [
-                { _name: 'degree-value', _content: '4' },
-                { _name: 'degree-type', _content: 'add' },
-            ],
-        },
-        {
-            _name: 'degree',
-            _content: [
-                { _name: 'degree-value', _content: '5' },
-                { _name: 'degree-alter', _content: '-1' },
-                { _name: 'degree-type', _content: 'alter' },
-            ],
-        },
-    ],
+	"_name": "harmony",
+	"_content": [
+		{
+			"_name": "root",
+			"_content": [{ "_name": "root-step", "_content": "C" }]
+		},
+		{
+			"_name": "kind",
+			"_attrs": { "text": "7sus" },
+			"_content": "dominant"
+		},
+		{
+			"_name": "bass",
+			"_content": [
+				{ "_name": "bass-step", "_content": "G" },
+				{ "_name": "bass-alter", "_content": "-1" }
+			]
+		},
+		{
+			"_name": "degree",
+			"_attrs": { "print-object": "no" },
+			"_content": [
+				{ "_name": "degree-value", "_content": "3" },
+				{ "_name": "degree-type", "_content": "subtract" }
+			]
+		},
+		{
+			"_name": "degree",
+			"_attrs": { "print-object": "no" },
+			"_content": [
+				{ "_name": "degree-value", "_content": "4" },
+				{ "_name": "degree-type", "_content": "add" }
+			]
+		},
+		{
+			"_name": "degree",
+			"_content": [
+				{ "_name": "degree-value", "_content": "5" },
+				{ "_name": "degree-alter", "_content": "-1" },
+				{ "_name": "degree-type", "_content": "alter" }
+			]
+		}
+	]
 }
 ```
 
-If you want some XML string, you can use `jstoxml` to convert the Javascript into an XML entity
+If you want some XML string, you can use `jstoxml` to convert the Javascript object into an XML entity
 
 ```javascript
+import { toXML } from 'jstoxml';
+
 const xml = toXML(rendered.musicxml);
 
 console.log(xml);
 ```
 
-Will output:
+This will output the following String:
 
 ```xml
 <harmony>
