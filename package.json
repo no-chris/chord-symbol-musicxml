@@ -1,6 +1,6 @@
 {
   "name": "chord-symbol-musicxml",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Music XML plugin for chord-symbol module",
   "main": "lib/chord-symbol-musicxml.js",
   "scripts": {
