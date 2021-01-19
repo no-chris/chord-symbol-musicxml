@@ -4,6 +4,8 @@
 
 `chord-symbol-musicxml` is a pluggable rendering filter for `chord-symbol` that generates chords in the MusicXml notation. It outputs a plain Javascript object that can easily be turned into an XML `harmony` entity using a library such as [jstoxml](https://github.com/davidcalhoun/jstoxml).
 
+See a [live demo](https://chord-symbol.netlify.app/)!
+
 # Installation
 
 ```shell
