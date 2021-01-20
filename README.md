@@ -57,6 +57,7 @@ console.log(rendered.musicxml);
 			"_attrs": { "print-object": "no" },
 			"_content": [
 				{ "_name": "degree-value", "_content": "3" },
+				{ "_name": "degree-alter", "_content": "0" },
 				{ "_name": "degree-type", "_content": "subtract" }
 			]
 		},
@@ -65,6 +66,7 @@ console.log(rendered.musicxml);
 			"_attrs": { "print-object": "no" },
 			"_content": [
 				{ "_name": "degree-value", "_content": "4" },
+				{ "_name": "degree-alter", "_content": "0" },
 				{ "_name": "degree-type", "_content": "add" }
 			]
 		},
@@ -104,10 +106,12 @@ This will output the following String:
 	</bass>
 	<degree print-object="no">
 		<degree-value>3</degree-value>
+		<degree-alter>0</degree-alter>
 		<degree-type>subtract</degree-type>
 	</degree>
 	<degree print-object="no">
 		<degree-value>4</degree-value>
+		<degree-alter>0</degree-alter>
 		<degree-type>add</degree-type>
 	</degree>
 	<degree>
