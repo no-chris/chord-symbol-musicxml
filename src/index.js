@@ -109,6 +109,65 @@ const getMusicXmlKind = (chord) => {
 	return musicXmlKind;
 };
 
+const getAllDegrees = (musicxmlKind, chord) => {
+	const allDegrees = [];
+	const chordIntervals = normalizeIntervals(musicxmlKind, chord);
+	const kindIntervals = [...kindToIntervals[musicxmlKind]];
+
+	// adds & alts
+	chordIntervals
+		.filter((interval) => !kindIntervals.includes(interval))
+		.forEach((interval) => {
+			const unaltered = interval.replace(/[b#]/g, '');
+
+			if (isAltered(interval) && kindIntervals.includes(unaltered)) {
+				const printObject = !isAltChord(chord);
+				allDegrees.push(getDegree('alter', interval, printObject));
+			} else {
+				const printObject = !(
+					is9thIn69(interval, musicxmlKind) ||
+					isExtensionInMiMa(interval, musicxmlKind, chord) ||
+					is4thInSuspended(interval, chord) ||
+					isAltChord(chord)
+				);
+				allDegrees.push(getDegree('add', interval, printObject));
+			}
+		});
+
+	// omit3
+	if (!hasThird(chordIntervals)) {
+		const third = getThird(kindIntervals);
+		if (third) {
+			const printObject = !chord.normalized.isSuspended;
+			allDegrees.push(getDegree('subtract', third, printObject));
+		}
+	}
+
+	// omit5
+	if (!hasFifth(chordIntervals) && kindIntervals.includes('5')) {
+		allDegrees.push(getDegree('subtract', '5'));
+	}
+
+	// add3 edge case
+	if (chord.normalized.adds.includes('3')) {
+		allDegrees.push(getDegree('add', '3', true));
+	}
+
+	return allDegrees;
+};
+
+// Resolve inconsistencies between chord-symbol and MusicXml around the 11th in dominant chords
+const normalizeIntervals = (musicxmlKind, chord) => {
+	const chordIntervals = [...chord.normalized.intervals];
+
+	if (['major-13th', 'dominant-13th'].includes(musicxmlKind)) {
+		chordIntervals.push('11');
+	} else if (['major-11th', 'dominant-11th'].includes(musicxmlKind)) {
+		chordIntervals.push('3');
+	}
+	return chordIntervals;
+};
+
 const isExtended = (chord) => {
 	return chord.normalized.extensions.length > 0;
 };
@@ -126,64 +185,12 @@ const getHighestExtension = (chord) => {
 	return extensionMap[highestExtension];
 };
 
-const getAllDegrees = (musicxmlKind, chord) => {
-	const allDegrees = [];
-	const chordIntervals = [...chord.normalized.intervals];
-	const kindIntervals = [...kindToIntervals[musicxmlKind]];
-
-	// fix chord-symbol vs musicxml inconsistencies
-	if (['major-13th', 'dominant-13th'].includes(musicxmlKind)) {
-		chordIntervals.push('11');
-	} else if (['major-11th', 'dominant-11th'].includes(musicxmlKind)) {
-		chordIntervals.push('3');
+const getThird = (allIntervals) => {
+	if (allIntervals.includes('b3')) {
+		return 'b3';
+	} else if (allIntervals.includes('3')) {
+		return '3';
 	}
-
-	// adds & alts
-	chordIntervals
-		.filter((interval) => !kindIntervals.includes(interval))
-		.forEach((interval) => {
-			const unaltered = interval.replace(/[b#]/g, '');
-			if (isAltered(interval) && kindIntervals.includes(unaltered)) {
-				const printObject = !isAltChord(chord);
-				allDegrees.push(getDegree('alter', interval, printObject));
-			} else if (!kindIntervals.includes(interval)) {
-				const printObject = !(
-					is9thIn69(interval, musicxmlKind) ||
-					isExtensionInMiMaChord(interval, musicxmlKind, chord) ||
-					is4thInSuspended(interval, chord) ||
-					isAltChord(chord)
-				);
-				allDegrees.push(getDegree('add', interval, printObject));
-			}
-		});
-
-	// omits
-	if (!hasThird(chordIntervals)) {
-		const printObject = !chord.normalized.isSuspended;
-		if (kindIntervals.includes('b3')) {
-			allDegrees.push(getDegree('subtract', 'b3', printObject));
-		} else if (kindIntervals.includes('3')) {
-			allDegrees.push(getDegree('subtract', '3', printObject));
-		}
-	}
-
-	if (!hasFifth(chordIntervals)) {
-		if (kindIntervals.includes('b5')) {
-			allDegrees.push(getDegree('subtract', 'b5'));
-		} else if (kindIntervals.includes('5')) {
-			allDegrees.push(getDegree('subtract', '5'));
-		} else if (kindIntervals.includes('#5')) {
-			allDegrees.push(getDegree('subtract', '#5'));
-		}
-	}
-
-	// add3 edge case
-	if (chord.normalized.adds.includes('3')) {
-		allDegrees.push(getDegree('add', '3', true));
-	}
-
-	/**/
-	return allDegrees;
 };
 
 const isAltered = (interval) => {
@@ -197,7 +204,7 @@ const is9thIn69 = (interval, musicXmlKind) => {
 	);
 };
 
-const isExtensionInMiMaChord = (interval, musicXmlKind, chord) => {
+const isExtensionInMiMa = (interval, musicXmlKind, chord) => {
 	const extensions = ['9', '11', '13'];
 	return (
 		musicXmlKind === 'major-minor' &&
