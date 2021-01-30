@@ -2,6 +2,7 @@ import {
 	addInterval,
 	removeInterval,
 	sortIntervals,
+	hasOneOf,
 	isEqual,
 } from '../../src/helpers/intervalHelpers';
 
@@ -141,6 +142,24 @@ describe('isEqual()', () => {
 	])('Should NOT be equal:', (int1, int2) => {
 		test(int1.join(',') + ' != ' + int2.join(','), () => {
 			expect(isEqual(int1, int2)).toBe(false);
+		});
+	});
+});
+
+describe('hasOneOf()', () => {
+	describe.each([
+		[['1', '3', '5', 'b7'], ['1', '3', '5', 'b7'], true],
+		[['1', '3', '5', 'b7'], ['1', '5', 'b7'], true],
+		[['1', '3', '5', 'b7'], ['1', '5'], true],
+		[['1', '3', '5', 'b7'], ['1'], true],
+		[['1', '3', '5', 'b7'], ['5', '6'], true],
+		[['1', '3', '5', 'b7'], ['4', '6', 'b7'], true],
+
+		[['1', '3', '5', 'b7'], ['4', '6', '7'], false],
+		[['1', '3', '5', 'b7'], [], false],
+	])('', (allIntervals, search, expected) => {
+		test('', () => {
+			expect(hasOneOf(allIntervals, search)).toBe(expected);
 		});
 	});
 });
