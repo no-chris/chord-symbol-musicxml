@@ -1,9 +1,6 @@
 /**
  * Mapping of MusicXML kind values to actual intervals
  */
-
-import { removeInterval } from './helpers/intervalHelpers';
-
 const kindToIntervals = {};
 
 const sixth = '6';
@@ -54,25 +51,19 @@ kindToIntervals['minor-ninth'] = [...kindToIntervals['minor-seventh'], ninth]; /
 // ===== 11ths (usually as the basis for alteration) =====
 
 kindToIntervals['dominant-11th'] = [
-	...removeInterval(kindToIntervals['dominant-ninth'], '3'), // major 11th does not contain '3' in chord-symbol
+	...kindToIntervals['dominant-ninth'],
 	eleventh,
 ]; // dominant-11th (dominant-ninth, perfect 11th)
-kindToIntervals['major-11th'] = [
-	...removeInterval(kindToIntervals['major-ninth'], '3'), // major 11th does not contain '3' in chord-symbol
-	eleventh,
-]; // major-11th (major-ninth, perfect 11th)
+kindToIntervals['major-11th'] = [...kindToIntervals['major-ninth'], eleventh]; // major-11th (major-ninth, perfect 11th)
 kindToIntervals['minor-11th'] = [...kindToIntervals['minor-ninth'], eleventh]; // minor-11th (minor-ninth, perfect 11th)
 
 // ===== 13ths (usually as the basis for alteration) =====
 
 kindToIntervals['dominant-13th'] = [
-	...kindToIntervals['dominant-ninth'], // major dominant 13th does not contain 11th in chord-symbol
+	...kindToIntervals['dominant-11th'],
 	thirteenth,
 ]; // dominant-13th (dominant-11th, major 13th)
-kindToIntervals['major-13th'] = [
-	...kindToIntervals['major-ninth'], // major dominant 13th does not contain 11th in chord-symbol
-	thirteenth,
-]; // major-13th (major-11th, major 13th)
+kindToIntervals['major-13th'] = [...kindToIntervals['major-11th'], thirteenth]; // major-13th (major-11th, major 13th)
 kindToIntervals['minor-13th'] = [...kindToIntervals['minor-11th'], thirteenth]; // minor-13th (minor-11th, major 13th)
 
 // ===== Suspended =====
