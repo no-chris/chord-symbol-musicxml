@@ -122,8 +122,8 @@ describe.each(
 		['C9(#5,#11)', n.C, '9', 'dominant-ninth', [d.alterx5, d.addx11]],
 		['C9(#11)', n.C, '9', 'dominant-ninth', [d.addx11]],
 		['C9(#11,b13)', n.C, '9', 'dominant-ninth', [d.addx11, d.addb13]],
-		['C11', n.C, '9sus', 'dominant-11th'], // fixme: render 11
-		['C11(b9)', n.C, '7sus', 'dominant-11th', [d.alterb9]], // fixme: render 11®
+		['C11', n.C, '11', 'dominant-11th'],
+		['C11(b9)', n.C, '11', 'dominant-11th', [d.alterb9]],
 		['C13', n.C, '13', 'dominant-13th'],
 		['C13sus', n.C, '13sus', 'dominant-13th', [d.omit3, d.add4], ['3', '4']],
 		['C13(b5)', n.C, '13', 'dominant-13th', [d.alterb5]],

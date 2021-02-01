@@ -59,8 +59,8 @@ const getMusicXmlKindAndDegrees = (chord) => {
 		musicXmlKindText = 'sus4';
 	} else {
 		// Generic case
+		musicXmlKindText = getMusicXmlKindText(chord);
 		musicXmlKind = getMusicXmlKind(chord);
-		musicXmlKindText = chord.formatted.descriptor;
 
 		allDegrees = getAllDegrees(musicXmlKind, chord);
 	}
@@ -70,6 +70,16 @@ const getMusicXmlKindAndDegrees = (chord) => {
 	});
 
 	return { musicXmlKind, musicXmlKindText, allDegrees };
+};
+
+const getMusicXmlKindText = (chord) => {
+	if (
+		chord.normalized.quality === 'dominant7' &&
+		chord.normalized.intents.eleventh === true
+	) {
+		return '11';
+	}
+	return chord.formatted.descriptor;
 };
 
 const getMusicXmlKind = (chord) => {
