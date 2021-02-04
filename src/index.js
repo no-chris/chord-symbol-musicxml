@@ -121,6 +121,7 @@ const getMusicXmlKind = (chord) => {
 
 const getAllDegrees = (musicxmlKind, chord) => {
 	const allDegrees = [];
+	const alteredDegrees = [];
 	const chordIntervals = normalizeIntervals(musicxmlKind, chord);
 	const kindIntervals = [...kindToIntervals[musicxmlKind]];
 
@@ -130,9 +131,14 @@ const getAllDegrees = (musicxmlKind, chord) => {
 		.forEach((interval) => {
 			const unaltered = interval.replace(/[b#]/g, '');
 
-			if (isAltered(interval) && kindIntervals.includes(unaltered)) {
+			if (
+				isAltered(interval) &&
+				!alteredDegrees.includes(unaltered) &&
+				kindIntervals.includes(unaltered)
+			) {
 				const printObject = !isAltChord(chord);
 				allDegrees.push(getDegree('alter', interval, printObject));
+				alteredDegrees.push(unaltered);
 			} else {
 				const printObject = !(
 					is9thIn69(interval, musicxmlKind) ||

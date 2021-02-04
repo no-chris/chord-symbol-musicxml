@@ -10,6 +10,7 @@ allDegrees.omit5 = { value: '5', alter: '0', type: 'subtract' };
 
 allDegrees.add3 = { value: '3', alter: '0', type: 'add' };
 allDegrees.add4 = { value: '4', alter: '0', type: 'add' };
+allDegrees.addx5 = { value: '5', alter: '1', type: 'add' };
 allDegrees.addb6 = { value: '6', alter: '-1', type: 'add' };
 allDegrees.add6 = { value: '6', alter: '0', type: 'add' };
 allDegrees.addma7 = { value: '7', alter: '0', type: 'add' };
