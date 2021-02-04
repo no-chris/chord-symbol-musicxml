@@ -3,6 +3,7 @@ import _cloneDeep from 'lodash/cloneDeep';
 
 import { musicXmlRenderer } from '../src/index';
 import { chordParserFactory } from 'chord-symbol';
+import d from './allDegrees';
 import {
 	getDegreesAsObjects,
 	formatDegree,
@@ -128,8 +129,8 @@ describe('degrees implied by the kind/@text attribute should not be printable', 
 		['C7sus(b5)', ['3', '4'], ['b5']],
 		['C9sus(b5)', ['3', '4'], ['b5']],
 		['C13sus(b5)', ['3', '4'], ['b5']],
-		['Cmi7sus(b5)', ['3', '4'], ['b5']],
-		['Cmi9sus(b5)', ['3', '4'], ['b5']],
+		['Cmi7sus(b5)', ['b3', '4'], ['b5']],
+		['Cmi9sus(b5)', ['b3', '4'], ['b5']],
 		['F#7SUS(add 3)', ['4'], ['3']],
 		['C69', ['9']],
 		['Cmi69', ['9']],
@@ -139,20 +140,26 @@ describe('degrees implied by the kind/@text attribute should not be printable', 
 		['CmiMa13', ['9', '11', '13'], []],
 		['C7alt', ['b5', '#5', 'b9', '#9', '#11', 'b13'], []],
 	])('%s', (symbol, nonPrintableDegrees, printableDegrees = []) => {
+		const parsed = parseChord(symbol);
+		const filtered = musicXmlRenderer(parsed);
+		const allDegrees = getDegreesAsObjects(filtered.musicxml);
+
 		test(
 			'should have print-object="no" for degrees ' +
 				nonPrintableDegrees.join(', '),
 			() => {
-				const parsed = parseChord(symbol);
-				const filtered = musicXmlRenderer(parsed);
-				const allDegrees = getDegreesAsObjects(filtered.musicxml);
-
 				const actualNonPrintableDegrees = allDegrees
 					.filter((el) => el.printObject === 'no')
 					.map(formatDegree);
 
 				expect(actualNonPrintableDegrees).toEqual(nonPrintableDegrees);
+			}
+		);
 
+		test(
+			'should NOT have print-object="no" for degrees ' +
+				printableDegrees.join(', '),
+			() => {
 				const actualPrintableDegrees = allDegrees
 					.filter((el) => el.printObject !== 'no')
 					.map(formatDegree);
@@ -160,5 +167,28 @@ describe('degrees implied by the kind/@text attribute should not be printable', 
 				expect(actualPrintableDegrees).toEqual(printableDegrees);
 			}
 		);
+	});
+});
+
+describe('Double alteration should yield both add and alter degree-type', () => {
+	describe.each([
+		['C7(b5,#5)', [d.alterb5, d.addx5]],
+		['C13(b9,#9)', [d.alterb9, d.addx9]],
+		['C13(b5,#5,b9,#9)', [d.alterb5, d.addx5, d.alterb9, d.addx9]],
+	])('%s', (symbol, expectedDegrees) => {
+		const parsed = parseChord(symbol);
+		const filtered = musicXmlRenderer(parsed);
+		const allDegrees = getDegreesAsObjects(filtered.musicxml);
+
+		test('should have the expected degrees', () => {
+			expect(allDegrees).toEqual(expectedDegrees);
+		});
+
+		test.skip('all degrees should be printable', () => {
+			const notPrinted = allDegrees.filter(
+				(degree) => degree.printObject === 'no' // fixme
+			);
+			expect(notPrinted.length).toEqual(0);
+		});
 	});
 });

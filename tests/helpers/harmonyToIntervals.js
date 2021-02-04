@@ -15,6 +15,13 @@ import {
 const harmonyToIntervals = (kind, allDegrees = []) => {
 	let allIntervals = [...kindToIntervals[kind]];
 
+	// fix interpretation differences between chord-symbol and music xml
+	if (['major-11th', 'dominant-11th'].includes(kind)) {
+		allIntervals = removeInterval(allIntervals, '3');
+	} else if (['major-13th', 'dominant-13th'].includes(kind)) {
+		allIntervals = removeInterval(allIntervals, '11');
+	}
+
 	allDegrees.forEach((degree) => {
 		const formattedInterval = getInterval(degree.value, degree.alter);
 
